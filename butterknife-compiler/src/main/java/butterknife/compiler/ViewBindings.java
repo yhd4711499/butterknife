@@ -88,6 +88,14 @@ final class ViewBindings {
     if (isSingleFieldBinding()) {
       return false;
     }
+    if (fieldBinding != null) {
+      boolean allMatch = true;
+      for (ListenerClass listenerClass : methodBindings.keySet()) {
+        allMatch &= ButterKnifeProcessor.VIEW_TYPE.equals(listenerClass.type())
+            || BindingClass.bestGuess(listenerClass.type()).equals(fieldBinding.getType());
+      }
+      return allMatch;
+    }
     return true;
   }
 

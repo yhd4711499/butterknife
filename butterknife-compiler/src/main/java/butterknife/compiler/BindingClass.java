@@ -226,6 +226,13 @@ final class BindingClass {
       result.addStatement("super.unbind()");
     }
 
+    if (hasMethodBindings()) {
+      result.addCode("\n");
+      for (ViewBindings bindings : viewIdMap.values()) {
+        addFieldAndUnbindStatement(unbinderClass, result, bindings);
+      }
+    }
+
     if (hasFieldBindings()) {
       result.addCode("\n");
       for (ViewBindings bindings : viewIdMap.values()) {
@@ -235,13 +242,6 @@ final class BindingClass {
       }
       for (FieldCollectionViewBinding fieldCollectionBinding : collectionBindings.keySet()) {
         result.addStatement("target.$L = null", fieldCollectionBinding.getName());
-      }
-    }
-
-    if (hasMethodBindings()) {
-      result.addCode("\n");
-      for (ViewBindings bindings : viewIdMap.values()) {
-        addFieldAndUnbindStatement(unbinderClass, result, bindings);
       }
     }
 
