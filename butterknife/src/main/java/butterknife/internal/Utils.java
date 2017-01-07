@@ -12,8 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 import android.view.View;
+
 import java.lang.reflect.Array;
 import java.util.List;
+
+import butterknife.ViewSource;
 
 @SuppressWarnings("WeakerAccess") // Used by generated code.
 public final class Utils {
@@ -77,13 +80,13 @@ public final class Utils {
     return newViews;
   }
 
-  public static <T> T findOptionalViewAsType(View source, @IdRes int id, String who,
-      Class<T> cls) {
+  public static <T> T findOptionalViewAsType(ViewSource source, @IdRes int id, String who,
+                                             Class<T> cls) {
     View view = source.findViewById(id);
     return castView(view, id, who, cls);
   }
 
-  public static View findRequiredView(View source, @IdRes int id, String who) {
+  public static View findRequiredView(ViewSource source, @IdRes int id, String who) {
     View view = source.findViewById(id);
     if (view != null) {
       return view;
@@ -99,7 +102,7 @@ public final class Utils {
         + " (methods) annotation.");
   }
 
-  public static <T> T findRequiredViewAsType(View source, @IdRes int id, String who,
+  public static <T> T findRequiredViewAsType(ViewSource source, @IdRes int id, String who,
       Class<T> cls) {
     View view = findRequiredView(source, id, who);
     return castView(view, id, who, cls);
@@ -109,7 +112,7 @@ public final class Utils {
     try {
       return cls.cast(view);
     } catch (ClassCastException e) {
-      String name = getResourceEntryName(view, id);
+      String name = getResourceEntryName(new ViewWrapper(view), id);
       throw new IllegalStateException("View '"
           + name
           + "' with ID "
@@ -137,11 +140,34 @@ public final class Utils {
     }
   }
 
-  private static String getResourceEntryName(View view, @IdRes int id) {
+  private static String getResourceEntryName(ViewSource view, @IdRes int id) {
     if (view.isInEditMode()) {
       return "<unavailable while editing>";
     }
     return view.getContext().getResources().getResourceEntryName(id);
+  }
+
+  public static class ViewWrapper implements ViewSource {
+    private final View view;
+
+    public ViewWrapper(View view) {
+      this.view = view;
+    }
+
+    @Override
+    public View findViewById(int id) {
+      return view.findViewById(id);
+    }
+
+    @Override
+    public boolean isInEditMode() {
+      return view.isInEditMode();
+    }
+
+    @Override
+    public Context getContext() {
+      return view.getContext();
+    }
   }
 
   private Utils() {

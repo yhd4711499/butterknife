@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.kageiit.lintrules'
+//apply plugin: 'com.kageiit.lintrules'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -20,11 +20,11 @@ android {
 }
 
 dependencies {
-  compile project(':butterknife-annotations')
+  compile project(':butterknife:butterknife-annotations')
   compile deps.supportAnnotations
   compile deps.supportCompat
 
-  lintRules project(':butterknife-lint')
+//  lintRules project(':butterknife:butterknife-lint')
 
   androidTestCompile deps.junit
   androidTestCompile deps.truth
@@ -35,7 +35,7 @@ dependencies {
   testCompile deps.compiletesting
   testCompile files(getRuntimeJar())
   testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-  testCompile project(':butterknife-compiler')
+  testCompile project(':butterknife:butterknife-compiler')
 }
 
 def getRuntimeJar() {
@@ -51,5 +51,3 @@ def getRuntimeJar() {
     throw new RuntimeException(e);
   }
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

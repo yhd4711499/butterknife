@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.internal.Utils;
+
 /**
  * Field and method binding for Android views. Use this class to simplify finding views and
  * attaching listeners by binding them with annotations.
@@ -121,7 +123,7 @@ public final class ButterKnife {
   @NonNull @UiThread
   public static Unbinder bind(@NonNull Activity target) {
     View sourceView = target.getWindow().getDecorView();
-    return createBinding(target, sourceView);
+    return createBinding(target, new Utils.ViewWrapper(sourceView));
   }
 
   /**
@@ -132,7 +134,7 @@ public final class ButterKnife {
    */
   @NonNull @UiThread
   public static Unbinder bind(@NonNull View target) {
-    return createBinding(target, target);
+    return createBinding(target, new Utils.ViewWrapper(target));
   }
 
   /**
@@ -144,7 +146,7 @@ public final class ButterKnife {
   @NonNull @UiThread
   public static Unbinder bind(@NonNull Dialog target) {
     View sourceView = target.getWindow().getDecorView();
-    return createBinding(target, sourceView);
+    return createBinding(target, new Utils.ViewWrapper(sourceView));
   }
 
   /**
@@ -157,7 +159,7 @@ public final class ButterKnife {
   @NonNull @UiThread
   public static Unbinder bind(@NonNull Object target, @NonNull Activity source) {
     View sourceView = source.getWindow().getDecorView();
-    return createBinding(target, sourceView);
+    return createBinding(target, new Utils.ViewWrapper(sourceView));
   }
 
   /**
@@ -169,7 +171,7 @@ public final class ButterKnife {
    */
   @NonNull @UiThread
   public static Unbinder bind(@NonNull Object target, @NonNull View source) {
-    return createBinding(target, source);
+    return createBinding(target, new Utils.ViewWrapper(source));
   }
 
   /**
@@ -182,10 +184,22 @@ public final class ButterKnife {
   @NonNull @UiThread
   public static Unbinder bind(@NonNull Object target, @NonNull Dialog source) {
     View sourceView = source.getWindow().getDecorView();
-    return createBinding(target, sourceView);
+    return createBinding(target, new Utils.ViewWrapper(sourceView));
   }
 
-  private static Unbinder createBinding(@NonNull Object target, @NonNull View source) {
+  /**
+   * BindView annotated fields and methods in the specified {@code target} using the {@code source}
+   * {@link ViewSource} as the view root.
+   *
+   * @param target Target class for view binding.
+   * @param source View source.
+   */
+  @NonNull @UiThread
+  public static Unbinder bind(@NonNull Object target, @NonNull ViewSource source) {
+    return createBinding(target, source);
+  }
+
+  private static Unbinder createBinding(@NonNull Object target, @NonNull ViewSource source) {
     Class<?> targetClass = target.getClass();
     if (debug) Log.d(TAG, "Looking up binding for " + targetClass.getName());
     Constructor<? extends Unbinder> constructor = findBindingConstructorForClass(targetClass);
@@ -228,7 +242,7 @@ public final class ButterKnife {
     try {
       Class<?> bindingClass = Class.forName(clsName + "_ViewBinding");
       //noinspection unchecked
-      bindingCtor = (Constructor<? extends Unbinder>) bindingClass.getConstructor(cls, View.class);
+      bindingCtor = (Constructor<? extends Unbinder>) bindingClass.getConstructor(cls, ViewSource.class);
       if (debug) Log.d(TAG, "HIT: Loaded binding class and constructor.");
     } catch (ClassNotFoundException e) {
       if (debug) Log.d(TAG, "Not found. Trying superclass " + cls.getSuperclass().getName());

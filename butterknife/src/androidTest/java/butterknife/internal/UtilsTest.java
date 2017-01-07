@@ -35,7 +35,7 @@ public final class UtilsTest {
     Context context = InstrumentationRegistry.getContext();
     View view = new View(context);
     try {
-      Utils.findRequiredView(view, android.R.id.button1, "yo mama");
+      Utils.findRequiredView(new Utils.ViewWrapper(view), android.R.id.button1, "yo mama");
       fail();
     } catch (IllegalStateException e) {
       assertThat(e).hasMessage("Required view 'button1' with ID "
@@ -48,7 +48,7 @@ public final class UtilsTest {
     Context context = InstrumentationRegistry.getContext();
     View view = new EditModeView(context);
     try {
-      Utils.findRequiredView(view, android.R.id.button1, "yo mama");
+      Utils.findRequiredView(new Utils.ViewWrapper(view), android.R.id.button1, "yo mama");
       fail();
     } catch (IllegalStateException e) {
       assertThat(e).hasMessage("Required view '<unavailable while editing>' "

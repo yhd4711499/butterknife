@@ -1,7 +1,5 @@
 package butterknife.compiler;
 
-import butterknife.internal.ListenerClass;
-import butterknife.internal.ListenerMethod;
 import com.google.common.collect.ImmutableList;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
@@ -12,6 +10,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +20,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+
+import butterknife.internal.ListenerClass;
+import butterknife.internal.ListenerMethod;
 
 import static butterknife.compiler.ButterKnifeProcessor.VIEW_TYPE;
 import static com.google.auto.common.MoreElements.getPackage;
@@ -35,6 +38,7 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 final class BindingSet {
   static final ClassName UTILS = ClassName.get("butterknife.internal", "Utils");
   private static final ClassName VIEW = ClassName.get("android.view", "View");
+  private static final ClassName VIEWSOURCE = ClassName.get("butterknife", "ViewSource");
   private static final ClassName CONTEXT = ClassName.get("android.content", "Context");
   private static final ClassName RESOURCES = ClassName.get("android.content.res", "Resources");
   private static final ClassName UI_THREAD =
@@ -129,7 +133,7 @@ final class BindingSet {
     }
 
     if (constructorNeedsView()) {
-      constructor.addParameter(VIEW, "source");
+      constructor.addParameter(VIEWSOURCE, "source");
     } else {
       constructor.addParameter(CONTEXT, "context");
     }

@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-  compile project(':butterknife')
-  annotationProcessor project(':butterknife-compiler')
+  compile project(':butterknife:butterknife')
+  annotationProcessor project(':butterknife:butterknife-compiler')
 
   testCompile deps.junit
   testCompile deps.truth
