@@ -577,7 +577,7 @@ public class BindViewTest {
         + "  @UiThread\n"
         + "  public Test_ViewBinding(Test target, View source) {\n"
         + "    this.target = target;\n"
-        + "    target.view = source.findViewById(1);\n"
+        + "    target.view = source.findView(1);\n"
         + "  }\n"
         + "  @Override\n"
         + "  @CallSuper\n"

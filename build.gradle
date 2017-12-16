@@ -52,9 +52,9 @@
 //  targetCompatibilityVersion = JavaVersion.VERSION_1_7
 //}
 
-def androidToolsVersion = '25.2.0'
-def supportLibraryVersion = '24.2.1'
-def butterknifeLatestReleaseVersion = '8.4.0'
+//def androidToolsVersion = '25.2.0'
+//def supportLibraryVersion = '24.2.1'
+//def butterknifeLatestReleaseVersion = '8.4.0'
 
 ext.deps = [
     // Android

@@ -40,9 +40,9 @@
             <p>Instead of slow reflection, code is generated to perform the view look-ups. Calling <code>bind</code> delegates to this generated code that you can see and debug.</p>
             <p>The generated code for the above example is roughly equivalent to the following:</p>
             <pre class="prettyprint">public void bind(ExampleActivity activity) {
-  activity.subtitle = (android.widget.TextView) activity.findViewById(2130968578);
-  activity.footer = (android.widget.TextView) activity.findViewById(2130968579);
-  activity.title = (android.widget.TextView) activity.findViewById(2130968577);
+  activity.subtitle = (android.widget.TextView) activity.findView(2130968578);
+  activity.footer = (android.widget.TextView) activity.findView(2130968579);
+  activity.title = (android.widget.TextView) activity.findView(2130968577);
 }</pre>
 
             <h4 id="resource">Resource Binding</h4>
@@ -96,7 +96,7 @@
   }
 }</pre>
             <p>You can see this implementation in action in the provided sample.</p>
-            <p>Calls to <code>ButterKnife.bind</code> can be made anywhere you would otherwise put <code>findViewById</code> calls.</p>
+            <p>Calls to <code>ButterKnife.bind</code> can be made anywhere you would otherwise put <code>findView</code> calls.</p>
             <p>Other provided binding APIs:</p>
             <ul>
               <li>Bind arbitrary objects using an activity as the view root. If you use a pattern like MVC you can bind the controller using its activity with <code>ButterKnife.bind(this, activity)</code>.</li>

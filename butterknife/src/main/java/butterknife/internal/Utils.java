@@ -82,12 +82,12 @@ public final class Utils {
 
   public static <T> T findOptionalViewAsType(ViewSource source, @IdRes int id, String who,
                                              Class<T> cls) {
-    View view = source.findViewById(id);
+    View view = source.findView(id);
     return castView(view, id, who, cls);
   }
 
   public static View findRequiredView(ViewSource source, @IdRes int id, String who) {
-    View view = source.findViewById(id);
+    View view = source.findView(id);
     if (view != null) {
       return view;
     }
@@ -155,8 +155,8 @@ public final class Utils {
     }
 
     @Override
-    public View findViewById(int id) {
-      return view.findViewById(id);
+     public <T extends View> T findView(int id) {
+      return (T)view.findViewById(id);
     }
 
     @Override

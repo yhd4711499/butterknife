@@ -8,9 +8,9 @@ import android.view.View
  */
 
 interface ViewSource {
-    fun findViewById(id: Int): View?
+    fun <T : View> findView(id: Int): T?
 
-    fun getContext(): Context
+    fun getContext(): Context?
 
     val isInEditMode: Boolean
 }

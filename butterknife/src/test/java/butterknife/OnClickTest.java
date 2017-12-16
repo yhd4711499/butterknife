@@ -481,7 +481,7 @@ public class OnClickTest {
         + "  public Test_ViewBinding(final Test target, View source) {\n"
         + "    this.target = target;\n"
         + "    View view;\n"
-        + "    view = source.findViewById(1);\n"
+        + "    view = source.findView(1);\n"
         + "    if (view != null) {\n"
         + "      view1 = view;\n"
         + "      view.setOnClickListener(new DebouncingOnClickListener() {\n"

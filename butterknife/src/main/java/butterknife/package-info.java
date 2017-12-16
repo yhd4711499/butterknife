@@ -3,7 +3,7 @@
  * boilerplate code for you.
  * <p>
  * <ul>
- * <li>Eliminate {@link android.view.View#findViewById findViewById} calls by using
+ * <li>Eliminate {@link android.view.View#findViewById findView} calls by using
  * {@link butterknife.BindView @BindView} on fields.</li>
  * <li>Group multiple views in a {@linkplain java.util.List list} or array.
  * Operate on all of them at once with
